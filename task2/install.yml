@@ -30,6 +30,8 @@
         state: present
         update_cache: yes
 
+        # test
+
     - name: Install Helm
       shell: |
         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
