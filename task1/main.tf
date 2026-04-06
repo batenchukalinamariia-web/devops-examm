@@ -46,3 +46,5 @@ resource "google_storage_bucket" "bucket" {
   name     = "batenchuk-bucket-987654321"
   location = "EU"
 }
+
+# test
