@@ -1,0 +1,23 @@
+name: Ansible CI/CD
+
+on:
+  push:
+    paths:
+      - 'task2/**'
+
+jobs:
+  ansible:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Ansible
+        run: sudo apt update && sudo apt install -y ansible
+
+      - name: Run Ansible Check
+        run: ansible-playbook task2/install.yml -i task2/inventory.ini --check
+
+      - name: Run Ansible Install
+        run: ansible-playbook task2/install.yml -i task2/inventory.ini
