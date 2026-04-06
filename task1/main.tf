@@ -1,5 +1,5 @@
 provider "google" {
-  project = "devops-exam"
+  project = "devops-exam-492515"
   region  = "europe-west3"
 }
 
