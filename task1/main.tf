@@ -3,20 +3,15 @@ provider "google" {
   region  = "europe-west3"
 }
 
-# VPC (не буде падати якщо вже існує)
-resource "google_compute_network" "vpc" {
-  name                    = "batenchuk-vpc"
-  auto_create_subnetworks = true
-
-  lifecycle {
-    prevent_destroy = true
-  }
+# ❗ беремо вже існуючу VPC
+data "google_compute_network" "vpc" {
+  name = "batenchuk-vpc"
 }
 
 # Firewall
 resource "google_compute_firewall" "firewall" {
-  name    = "batenchuk-firewall"
-  network = google_compute_network.vpc.name
+  name    = "batenchuk-firewall-2"
+  network = data.google_compute_network.vpc.name
 
   allow {
     protocol = "tcp"
@@ -39,7 +34,7 @@ resource "google_compute_instance" "vm" {
   }
 
   network_interface {
-    network = "batenchuk-vpc"   # 👈 важливо (напряму назва)
+    network = data.google_compute_network.vpc.name
 
     access_config {}
   }
@@ -47,9 +42,9 @@ resource "google_compute_instance" "vm" {
   tags = ["http-server", "https-server"]
 }
 
-# Bucket (з новою назвою щоб не падало)
+# Bucket (нове ім'я щоб не падало)
 resource "google_storage_bucket" "bucket" {
-  name     = "batenchuk-bucket-492515-1"
+  name     = "batenchuk-bucket-492515-2"
   location = "EU"
 
   force_destroy = true
