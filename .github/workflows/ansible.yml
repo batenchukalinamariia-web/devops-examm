@@ -16,6 +16,13 @@ jobs:
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 35.198.98.89 >> ~/.ssh/known_hosts
+
       - name: Run Ansible Check
         run: ansible-playbook task2/install.yml -i task2/inventory.ini --check
 
